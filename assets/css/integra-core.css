@@ -1,0 +1,12 @@
+:root {
+	--integra-color-primary: #0f3557;
+	--integra-color-secondary: #2a7f62;
+	--integra-color-surface: #f5f7fa;
+	--integra-color-text: #14212b;
+	--integra-spacing-xs: 0.25rem;
+	--integra-spacing-sm: 0.5rem;
+	--integra-spacing-md: 1rem;
+	--integra-spacing-lg: 1.5rem;
+	--integra-radius-sm: 0.25rem;
+	--integra-radius-md: 0.5rem;
+}
