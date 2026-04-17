@@ -81,6 +81,7 @@ $colors: (
 	"Dark-950": #06070a
 );
 
+/* Color tokens */
 :root {
 	@each $key, $value in $colors {
 		--color-#{$key}: #{$value};

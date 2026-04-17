@@ -1,3 +1,4 @@
+/* Color tokens */
 :root {
   --color-White: #ffffff;
   --color-Black: #1e1e1e;
@@ -81,6 +82,7 @@
   --color-Dark-950: #06070a;
 }
 
+/* Spacing tokens */
 :root {
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -92,6 +94,7 @@
   --space-8: 4rem;
 }
 
+/* Radius tokens */
 :root {
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -99,6 +102,7 @@
   --radius-xl: 1.5rem;
 }
 
+/* Shadow tokens */
 :root {
   --shadow-1: 0 3px 6px rgba(0, 0, 0, 0.04);
   --shadow-2: 0 5px 10px rgba(0, 0, 0, 0.06);
@@ -107,6 +111,7 @@
   --shadow-5: 0 16px 32px rgba(0, 0, 0, 0.12);
 }
 
+/* Typography tokens */
 :root {
   --font-family-body: DM Sans, sans-serif;
   --font-family-heading: Anek Bangla, sans-serif;
@@ -139,6 +144,7 @@
   --font-size-h6-desktop: 1.5rem;
 }
 
+/* Container tokens */
 :root {
   --container-max-width: 75rem;
   --container-padding-mobile: 1rem;
@@ -146,6 +152,7 @@
   --container-padding-desktop: 2rem;
 }
 
+/* Section padding tokens */
 :root {
   --in-section-padding-top-mobile: 0px;
   --in-section-padding-top-tablet: var(--in-section-padding-top-mobile);
@@ -155,12 +162,14 @@
   --in-section-padding-bottom-desktop: var(--in-section-padding-bottom-tablet);
 }
 
+/* Block height tokens */
 :root {
   --in-block-height-mobile: 0px;
   --in-block-height-tablet: var(--in-block-height-mobile);
   --in-block-height-desktop: var(--in-block-height-tablet);
 }
 
+/* Cards component tokens */
 :root {
   --in-shadow-box: var(--shadow-1);
   --in-cards-columns-mobile: repeat(1, minmax(0, 1fr));
@@ -171,22 +180,26 @@
   --in-cards-gap-desktop: var(--space-6);
 }
 
+/* Display component tokens */
 :root {
   --in-display-content-gap: var(--space-5);
   --in-display-column-gap: var(--space-6);
 }
 
+/* Gallery component tokens */
 :root {
   --in-gallery-gap-mobile: var(--space-4);
   --in-gallery-gap-tablet: var(--space-5);
   --in-gallery-gap-desktop: var(--space-6);
 }
 
+/* Icon component tokens */
 :root {
   --in-icon-size: 1.25rem;
   --in-icon-color: var(--color-Dark-200);
 }
 
+/* Panels component tokens */
 :root {
   --in-panels-columns-mobile: repeat(1, minmax(0, 1fr));
   --in-panels-columns-tablet: var(--in-panels-columns-mobile);
@@ -196,6 +209,7 @@
   --in-panels-gap-desktop: var(--space-6);
 }
 
+/* Wysiwyg component tokens */
 :root {
   --in-wysiwyg-content-gap: var(--space-4);
 }
