@@ -27,16 +27,16 @@ $font-sizes: (
 
 /* Typography tokens */
 :root {
-	--font-family-body: #{$font-family-body};
-	--font-family-heading: #{$font-family-heading};
-	--font-weight-light: 300;
-	--font-weight-regular: 400;
-	--font-weight-medium: 500;
-	--font-weight-bold: 700;
-	--line-height-heading: 1;
-	--line-height-body: 1.7;
+	--in-font-family-body: #{$font-family-body};
+	--in-font-family-heading: #{$font-family-heading};
+	--in-font-weight-light: 300;
+	--in-font-weight-regular: 400;
+	--in-font-weight-medium: 500;
+	--in-font-weight-bold: 700;
+	--in-line-height-heading: 1;
+	--in-line-height-body: 1.7;
 
 	@each $key, $value in $font-sizes {
-		--font-size-#{$key}: #{$value};
+		--in-font-size-#{$key}: #{$value};
 	}
 }

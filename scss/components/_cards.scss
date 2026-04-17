@@ -1,10 +1,10 @@
 /* Cards component tokens */
 :root {
-	--in-shadow-box: var(--shadow-1);
+	--in-shadow-box: var(--in-shadow-1);
 	--in-cards-columns-mobile: repeat(1, minmax(0, 1fr));
 	--in-cards-columns-tablet: var(--in-cards-columns-mobile);
 	--in-cards-columns-desktop: var(--in-cards-columns-tablet);
-	--in-cards-gap-mobile: var(--space-4);
-	--in-cards-gap-tablet: var(--space-5);
-	--in-cards-gap-desktop: var(--space-6);
+	--in-cards-gap-mobile: var(--in-space-4);
+	--in-cards-gap-tablet: var(--in-space-5);
+	--in-cards-gap-desktop: var(--in-space-6);
 }
