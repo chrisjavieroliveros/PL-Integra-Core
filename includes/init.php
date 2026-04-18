@@ -9,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once INTEGRA_CORE_DIR_PATH . 'includes/class-integra-core-token-registry.php';
+require_once INTEGRA_CORE_DIR_PATH . 'includes/class-integra-core-runtime-css.php';
+require_once INTEGRA_CORE_DIR_PATH . 'includes/class-integra-core-admin.php';
+
 /**
  * Initializes the plugin.
  *
@@ -21,20 +25,6 @@ function integra_core_init() {
 		dirname( INTEGRA_CORE_BASENAME ) . '/languages'
 	);
 
-	add_action( 'wp_enqueue_scripts', 'integra_core_enqueue_styles' );
-	add_action( 'enqueue_block_assets', 'integra_core_enqueue_styles' );
-}
-
-/**
- * Enqueues the shared token stylesheet.
- *
- * @return void
- */
-function integra_core_enqueue_styles() {
-	wp_enqueue_style(
-		'integra-core',
-		INTEGRA_CORE_DIR_URL . 'assets/css/integra-core.css',
-		array(),
-		INTEGRA_CORE_VERSION
-	);
+	Integra_Core_Runtime_CSS::boot();
+	Integra_Core_Admin::boot();
 }
