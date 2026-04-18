@@ -36,26 +36,38 @@
   --in-color-Danger-Tint: #c74949;
   --in-color-Danger-Shade: #941616;
   --in-color-Danger-Contrast: #fbe8e8;
+  --in-color-Danger-50: #fdf2f2;
   --in-color-Danger-100: #f7caca;
   --in-color-Danger-200: #ef9f9f;
+  --in-color-Danger-500: #b91c1c;
+  --in-color-Danger-950: #450a0a;
   --in-color-Warning: #ffb703;
   --in-color-Warning-Tint: #ffc535;
   --in-color-Warning-Shade: #cc9202;
   --in-color-Warning-Contrast: #fffbe6;
+  --in-color-Warning-50: #fff9e6;
   --in-color-Warning-100: #ffe7a1;
   --in-color-Warning-200: #ffd25b;
+  --in-color-Warning-500: #ffb703;
+  --in-color-Warning-950: #4d3800;
   --in-color-Success: #4caa55;
   --in-color-Success-Tint: #70b477;
   --in-color-Success-Shade: #3d8144;
   --in-color-Success-Contrast: #edf6ee;
+  --in-color-Success-50: #eff8f0;
   --in-color-Success-100: #c6e6ca;
   --in-color-Success-200: #98d09e;
+  --in-color-Success-500: #4caa55;
+  --in-color-Success-950: #102713;
   --in-color-Info: #1c78aa;
   --in-color-Info-Tint: #4993bb;
   --in-color-Info-Shade: #166088;
   --in-color-Info-Contrast: #ebf2f7;
+  --in-color-Info-50: #eef7fb;
   --in-color-Info-100: #bfd9e8;
   --in-color-Info-200: #89bad5;
+  --in-color-Info-500: #1c78aa;
+  --in-color-Info-950: #0a3145;
   --in-color-Light: #c0c0c0;
   --in-color-Light-50: #f5f5f5;
   --in-color-Light-100: #eeeeee;
@@ -169,17 +181,6 @@
   --in-block-height-desktop: var(--in-block-height-tablet);
 }
 
-/* Cards component tokens */
-:root {
-  --in-shadow-box: var(--in-shadow-1);
-  --in-cards-columns-mobile: repeat(1, minmax(0, 1fr));
-  --in-cards-columns-tablet: var(--in-cards-columns-mobile);
-  --in-cards-columns-desktop: var(--in-cards-columns-tablet);
-  --in-cards-gap-mobile: var(--in-space-4);
-  --in-cards-gap-tablet: var(--in-space-5);
-  --in-cards-gap-desktop: var(--in-space-6);
-}
-
 /* Button component tokens */
 :root {
   --in-button-gap-xs: 0.375rem;
@@ -278,6 +279,17 @@
   --in-button-dark-hover-fg: var(--in-color-Dark-500);
   --in-button-dark-hover-border: var(--in-color-Dark-200);
   --in-button-dark-outline-hover-border: var(--in-color-Dark-100);
+}
+
+/* Cards component tokens */
+:root {
+  --in-shadow-box: var(--in-shadow-1);
+  --in-cards-columns-mobile: repeat(1, minmax(0, 1fr));
+  --in-cards-columns-tablet: var(--in-cards-columns-mobile);
+  --in-cards-columns-desktop: var(--in-cards-columns-tablet);
+  --in-cards-gap-mobile: var(--in-space-4);
+  --in-cards-gap-tablet: var(--in-space-5);
+  --in-cards-gap-desktop: var(--in-space-6);
 }
 
 /* Display component tokens */
