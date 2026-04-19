@@ -18,7 +18,7 @@ final class Integra_Core_Runtime_CSS {
 	/**
 	 * Global stylesheet relative path.
 	 */
-	const GLOBAL_STYLESHEET_RELATIVE_PATH = 'assets/css/integra-core.css';
+	const GLOBAL_STYLESHEET_RELATIVE_PATH = 'assets/css/integra-core.min.css';
 
 	/**
 	 * @var bool
@@ -53,12 +53,10 @@ final class Integra_Core_Runtime_CSS {
 		}
 
 		$configs_version = file_exists( $configs_path ) ? (string) filemtime( $configs_path ) : INTEGRA_CORE_VERSION;
-		$core_path       = self::global_file_path();
 		$core_url        = self::global_file_url();
-		$core_version    = file_exists( $core_path ) ? (string) filemtime( $core_path ) : INTEGRA_CORE_VERSION;
 
 		wp_enqueue_style( 'integra-configs', $configs_url, array(), $configs_version );
-		wp_enqueue_style( 'integra-core', $core_url, array( 'integra-configs' ), $core_version );
+		wp_enqueue_style( 'integra-core', $core_url, array( 'integra-configs' ), INTEGRA_CORE_VERSION );
 
 		self::$enqueued = true;
 	}
