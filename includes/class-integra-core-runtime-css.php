@@ -47,16 +47,18 @@ final class Integra_Core_Runtime_CSS {
 
 		$configs_path = self::file_path();
 		$configs_url  = self::file_url();
+		$core_path    = self::global_file_path();
+		$core_url     = self::global_file_url();
 
 		if ( ! file_exists( $configs_path ) ) {
 			self::write_values( Integra_Core_Token_Registry::defaults() );
 		}
 
-		$configs_version = file_exists( $configs_path ) ? (string) filemtime( $configs_path ) : INTEGRA_CORE_VERSION;
-		$core_url        = self::global_file_url();
+		$configs_version = self::asset_version( $configs_path );
+		$core_version    = self::asset_version( $core_path );
 
 		wp_enqueue_style( 'integra-configs', $configs_url, array(), $configs_version );
-		wp_enqueue_style( 'integra-core', $core_url, array( 'integra-configs' ), INTEGRA_CORE_VERSION );
+		wp_enqueue_style( 'integra-core', $core_url, array( 'integra-configs' ), $core_version );
 
 		self::$enqueued = true;
 	}
@@ -98,6 +100,38 @@ final class Integra_Core_Runtime_CSS {
 	}
 
 	/**
+	 * Returns the readable version for the configs stylesheet.
+	 *
+	 * @return string
+	 */
+	public static function configs_version() {
+		return self::asset_version( self::file_path() );
+	}
+
+	/**
+	 * Returns the readable version for the global stylesheet.
+	 *
+	 * @return string
+	 */
+	public static function global_version() {
+		return self::asset_version( self::global_file_path() );
+	}
+
+	/**
+	 * Builds a readable asset version from a file modification time.
+	 *
+	 * @param string $path Absolute asset path.
+	 * @return string
+	 */
+	private static function asset_version( $path ) {
+		if ( ! file_exists( $path ) ) {
+			return INTEGRA_CORE_VERSION;
+		}
+
+		return gmdate( 'Y.m.d.His', (int) filemtime( $path ) );
+	}
+
+	/**
 	 * Checks whether the stylesheet can be written.
 	 *
 	 * @return bool
@@ -110,6 +144,36 @@ final class Integra_Core_Runtime_CSS {
 		}
 
 		return is_writable( dirname( $path ) );
+	}
+
+	/**
+	 * Checks whether the global stylesheet can be written.
+	 *
+	 * @return bool
+	 */
+	public static function global_is_writable() {
+		$path = self::global_file_path();
+
+		if ( file_exists( $path ) ) {
+			return is_writable( $path );
+		}
+
+		return is_writable( dirname( $path ) );
+	}
+
+	/**
+	 * Bumps the global stylesheet version by updating its modified time.
+	 *
+	 * @return bool
+	 */
+	public static function bump_global_version() {
+		$path = self::global_file_path();
+
+		if ( ! self::global_is_writable() || ! file_exists( $path ) ) {
+			return false;
+		}
+
+		return touch( $path );
 	}
 
 	/**

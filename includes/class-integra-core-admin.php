@@ -24,6 +24,7 @@ final class Integra_Core_Admin {
 
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_post_integra_core_save_tokens', array( __CLASS__, 'handle_save' ) );
+		add_action( 'admin_post_integra_core_update_core', array( __CLASS__, 'handle_update_core' ) );
 		add_action( 'admin_post_integra_core_reset_tokens', array( __CLASS__, 'handle_reset' ) );
 	}
 
@@ -73,6 +74,10 @@ final class Integra_Core_Admin {
 
 		$current_section = $active_section ? $sections[ $active_section ] : null;
 		$last_section_slug = ! empty( $section_slugs ) ? end( $section_slugs ) : '';
+		$configs_file      = basename( Integra_Core_Runtime_CSS::file_path() );
+		$core_file         = basename( Integra_Core_Runtime_CSS::global_file_path() );
+		$configs_version   = Integra_Core_Runtime_CSS::configs_version();
+		$core_version      = Integra_Core_Runtime_CSS::global_version();
 
 		?>
 		<div class="wrap">
@@ -80,11 +85,23 @@ final class Integra_Core_Admin {
 				<div>
 					<h1><?php esc_html_e( 'Integra Config', 'integra-core' ); ?></h1>
 					<p><?php esc_html_e( 'Edit token values by category and save them directly into the runtime Integra Config stylesheet.', 'integra-core' ); ?></p>
+					<p style="margin:8px 0 0;color:#50575e;">
+						<?php echo esc_html( $configs_file . ' v' . $configs_version . ' | ' . $core_file . ' v' . $core_version ); ?>
+					</p>
 				</div>
 				<?php if ( $current_section ) : ?>
-					<button type="submit" form="integra-core-token-form" class="button button-primary" style="margin-top: 8px;">
-						<?php esc_html_e( 'Save Tokens', 'integra-core' ); ?>
-					</button>
+					<div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+						<button type="submit" form="integra-core-token-form" class="button button-primary">
+							<?php esc_html_e( 'Save Tokens', 'integra-core' ); ?>
+						</button>
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+							<input type="hidden" name="action" value="integra_core_update_core">
+							<input type="hidden" name="tab" value="<?php echo esc_attr( $active_tab ); ?>">
+							<input type="hidden" name="section" value="<?php echo esc_attr( $active_section ); ?>">
+							<?php wp_nonce_field( 'integra_core_update_core' ); ?>
+							<?php submit_button( __( 'Update Core', 'integra-core' ), 'secondary', 'submit', false ); ?>
+						</form>
+					</div>
 				<?php endif; ?>
 			</div>
 
@@ -135,25 +152,7 @@ final class Integra_Core_Admin {
 						<div class="inside">
 							<h2><?php echo esc_html( $current_section['title'] ); ?></h2>
 							<p><code><?php echo esc_html( $current_section['comment'] ); ?></code></p>
-							<table class="widefat striped">
-								<thead>
-									<tr>
-										<th><?php esc_html_e( 'Token', 'integra-core' ); ?></th>
-										<th><?php esc_html_e( 'Label', 'integra-core' ); ?></th>
-										<th><?php esc_html_e( 'Value', 'integra-core' ); ?></th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php foreach ( $current_section['tokens'] as $key => $default ) : ?>
-										<?php $meta = $registry[ $key ]; ?>
-										<tr>
-											<td><code><?php echo esc_html( $key ); ?></code></td>
-											<td><?php echo esc_html( $meta['label'] ); ?></td>
-											<td><?php self::render_input( $key, $values[ $key ] ?? $default, $meta['control'], $default ); ?></td>
-										</tr>
-									<?php endforeach; ?>
-								</tbody>
-							</table>
+							<?php self::render_section_tokens( $current_section, $registry, $values ); ?>
 						</div>
 					</div>
 				</form>
@@ -207,6 +206,26 @@ final class Integra_Core_Admin {
 		delete_option( Integra_Core_Token_Registry::OPTION_NAME );
 
 		wp_safe_redirect( self::admin_url( $tab, $section, 'saved' ) );
+		exit;
+	}
+
+	/**
+	 * Handles global core version bumps.
+	 *
+	 * @return void
+	 */
+	public static function handle_update_core() {
+		self::assert_permissions( 'integra_core_update_core' );
+
+		$tab     = isset( $_POST['tab'] ) ? sanitize_key( wp_unslash( $_POST['tab'] ) ) : 'abstracts';
+		$section = isset( $_POST['section'] ) ? sanitize_key( wp_unslash( $_POST['section'] ) ) : '';
+
+		if ( ! Integra_Core_Runtime_CSS::bump_global_version() ) {
+			wp_safe_redirect( self::admin_url( $tab, $section, 'core_update_failed' ) );
+			exit;
+		}
+
+		wp_safe_redirect( self::admin_url( $tab, $section, 'core_updated' ) );
 		exit;
 	}
 
@@ -291,6 +310,122 @@ final class Integra_Core_Admin {
 	}
 
 	/**
+	 * Renders token inputs for a section.
+	 *
+	 * @param array $section  Section config.
+	 * @param array $registry Flat token registry.
+	 * @param array $values   Current token values.
+	 * @return void
+	 */
+	private static function render_section_tokens( $section, $registry, $values ) {
+		if ( 'Button' === $section['title'] ) {
+			self::render_button_section_tokens( $section, $registry, $values );
+			return;
+		}
+
+		self::render_token_table( $section['tokens'], $registry, $values );
+	}
+
+	/**
+	 * Renders button tokens with grouped appearance blocks.
+	 *
+	 * @param array $section  Section config.
+	 * @param array $registry Flat token registry.
+	 * @param array $values   Current token values.
+	 * @return void
+	 */
+	private static function render_button_section_tokens( $section, $registry, $values ) {
+		$grouped = self::split_button_token_groups( $section['tokens'] );
+
+		if ( ! empty( $grouped['globals'] ) ) {
+			echo '<h3 class="integra-core-token-subheading">' . esc_html__( 'Global Button Properties', 'integra-core' ) . '</h3>';
+			self::render_token_table( $grouped['globals'], $registry, $values );
+		}
+
+		if ( empty( $grouped['variants'] ) ) {
+			return;
+		}
+
+		echo '<div class="integra-core-token-groups">';
+
+		foreach ( $grouped['variants'] as $variant => $tokens ) {
+			?>
+			<section class="integra-core-token-group">
+				<div class="integra-core-token-group__header">
+					<h3><?php echo esc_html( ucfirst( $variant ) ); ?></h3>
+					<p><code><?php echo esc_html( '--in-button-' . $variant . '-*' ); ?></code></p>
+				</div>
+				<?php self::render_token_table( $tokens, $registry, $values ); ?>
+			</section>
+			<?php
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * Splits button tokens into global and per-variant groups.
+	 *
+	 * @param array $tokens Button tokens in display order.
+	 * @return array<string, array>
+	 */
+	private static function split_button_token_groups( $tokens ) {
+		$grouped = array(
+			'globals'  => array(),
+			'variants' => array(),
+		);
+
+		foreach ( $tokens as $key => $default ) {
+			if ( preg_match( '/^--in-button-([a-z0-9]+)-(bg|fg|border|hover-bg|hover-fg|hover-border|outline-hover-border)$/', $key, $matches ) ) {
+				$variant = $matches[1];
+
+				if ( ! isset( $grouped['variants'][ $variant ] ) ) {
+					$grouped['variants'][ $variant ] = array();
+				}
+
+				$grouped['variants'][ $variant ][ $key ] = $default;
+				continue;
+			}
+
+			$grouped['globals'][ $key ] = $default;
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Renders a token table.
+	 *
+	 * @param array $tokens   Tokens to render.
+	 * @param array $registry Flat token registry.
+	 * @param array $values   Current token values.
+	 * @return void
+	 */
+	private static function render_token_table( $tokens, $registry, $values ) {
+		?>
+		<table class="widefat striped integra-core-token-table">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Token', 'integra-core' ); ?></th>
+					<th><?php esc_html_e( 'Label', 'integra-core' ); ?></th>
+					<th><?php esc_html_e( 'Value', 'integra-core' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $tokens as $key => $default ) : ?>
+					<?php $meta = $registry[ $key ]; ?>
+					<tr>
+						<td><code><?php echo esc_html( $key ); ?></code></td>
+						<td><?php echo esc_html( $meta['label'] ); ?></td>
+						<td><?php self::render_input( $key, $values[ $key ] ?? $default, $meta['control'], $default ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php
+	}
+
+	/**
 	 * Displays admin notices based on query args.
 	 *
 	 * @return void
@@ -306,8 +441,16 @@ final class Integra_Core_Admin {
 			echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'Token values reset to defaults.', 'integra-core' ) . '</p></div>';
 		}
 
+		if ( 'core_updated' === $status ) {
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Integra Core stylesheet version updated.', 'integra-core' ) . '</p></div>';
+		}
+
 		if ( 'save_failed' === $status || 'reset_failed' === $status ) {
 			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Integra Core could not write assets/css/integra-configs.css. Check plugin file permissions and try again.', 'integra-core' ) . '</p></div>';
+		}
+
+		if ( 'core_update_failed' === $status ) {
+			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Integra Core could not update assets/css/integra-core.min.css. Check plugin file permissions and try again.', 'integra-core' ) . '</p></div>';
 		}
 	}
 
@@ -352,6 +495,40 @@ final class Integra_Core_Admin {
 	private static function render_admin_assets() {
 		?>
 		<style>
+			.integra-core-token-subheading {
+				margin: 0 0 12px;
+			}
+
+			.integra-core-token-groups {
+				display: grid;
+				gap: 16px;
+				margin-top: 20px;
+			}
+
+			.integra-core-token-group {
+				border: 1px solid #dcdcde;
+				border-radius: 10px;
+				background: #fff;
+				padding: 16px;
+			}
+
+			.integra-core-token-group__header {
+				margin-bottom: 12px;
+			}
+
+			.integra-core-token-group__header h3 {
+				margin: 0 0 4px;
+			}
+
+			.integra-core-token-group__header p {
+				margin: 0;
+				color: #50575e;
+			}
+
+			.integra-core-token-table {
+				margin: 0;
+			}
+
 			.integra-core-color-control {
 				position: relative;
 				max-width: 460px;
