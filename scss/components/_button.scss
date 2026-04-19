@@ -35,6 +35,23 @@
     color var(--in-button-transition-duration) ease,
     transform var(--in-button-transition-duration) ease;
 
+  svg {
+    width: 1.15em;
+    height: 1.15em;
+    flex: 0 0 auto;
+    color: currentColor;
+    // fill: currentColor;
+    stroke: currentColor;
+  }
+
+  // svg [fill]:not([fill="none"]) {
+  //   fill: currentColor;
+  // }
+
+  svg [stroke]:not([stroke="none"]) {
+    stroke: currentColor;
+  }
+
   &:hover,
   &:focus-visible {
     background-color: var(--_btn-hover-bg);
