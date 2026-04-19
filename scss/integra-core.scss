@@ -1,15 +1,1 @@
-@use "./abstracts/colors" as *;
-@use "./abstracts/spacing" as *;
-@use "./abstracts/radius" as *;
-@use "./abstracts/shadows" as *;
-@use "./base/typography" as *;
-@use "./layout/container" as *;
-@use "./layout/section-padding" as *;
-@use "./layout/block-height" as *;
-@use "./components/cards" as *;
-@use "./components/button" as *;
-@use "./components/display" as *;
-@use "./components/gallery" as *;
-@use "./components/icon" as *;
-@use "./components/panels" as *;
-@use "./components/wysiwyg" as *;
+@use "./layout/container";

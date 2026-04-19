@@ -1,9 +1,0 @@
-/* Panels component tokens */
-:root {
-	--in-panels-columns-mobile: repeat(1, minmax(0, 1fr));
-	--in-panels-columns-tablet: var(--in-panels-columns-mobile);
-	--in-panels-columns-desktop: var(--in-panels-columns-tablet);
-	--in-panels-gap-mobile: var(--in-space-4);
-	--in-panels-gap-tablet: var(--in-space-5);
-	--in-panels-gap-desktop: var(--in-space-6);
-}

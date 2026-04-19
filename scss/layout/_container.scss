@@ -1,7 +1,7 @@
-/* Container tokens */
-:root {
-	--in-container-max-width: 75rem;
-	--in-container-padding-mobile: 1rem;
-	--in-container-padding-tablet: 1.5rem;
-	--in-container-padding-desktop: 2rem;
+/* Container */
+.in-container {
+  max-width: var(--in-container-max-width);
+  padding-left: var(--in-container-padding-mobile);
+  padding-right: var(--in-container-padding-mobile);
+  margin: 0 auto;
 }

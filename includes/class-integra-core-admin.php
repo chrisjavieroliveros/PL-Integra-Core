@@ -34,8 +34,8 @@ final class Integra_Core_Admin {
 	 */
 	public static function register_menu() {
 		add_menu_page(
-			__( 'Integra Core', 'integra-core' ),
-			__( 'Integra Core', 'integra-core' ),
+			__( 'Integra Config', 'integra-core' ),
+			__( 'Integra Config', 'integra-core' ),
 			'manage_options',
 			self::MENU_SLUG,
 			array( __CLASS__, 'render_page' ),
@@ -78,8 +78,8 @@ final class Integra_Core_Admin {
 		<div class="wrap">
 			<div style="display:flex;justify-content:space-between;align-items:start;gap:16px;">
 				<div>
-					<h1><?php esc_html_e( 'Integra Core', 'integra-core' ); ?></h1>
-					<p><?php esc_html_e( 'Edit token values by category and save them directly into the runtime Integra Core stylesheet.', 'integra-core' ); ?></p>
+					<h1><?php esc_html_e( 'Integra Config', 'integra-core' ); ?></h1>
+					<p><?php esc_html_e( 'Edit token values by category and save them directly into the runtime Integra Config stylesheet.', 'integra-core' ); ?></p>
 				</div>
 				<?php if ( $current_section ) : ?>
 					<button type="submit" form="integra-core-token-form" class="button button-primary" style="margin-top: 8px;">
@@ -307,7 +307,7 @@ final class Integra_Core_Admin {
 		}
 
 		if ( 'save_failed' === $status || 'reset_failed' === $status ) {
-			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Integra Core could not write assets/css/integra-core.css. Check plugin file permissions and try again.', 'integra-core' ) . '</p></div>';
+			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Integra Core could not write assets/css/integra-configs.css. Check plugin file permissions and try again.', 'integra-core' ) . '</p></div>';
 		}
 	}
 

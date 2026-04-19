@@ -11,9 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Integra_Core_Runtime_CSS {
 	/**
-	 * Runtime stylesheet relative path.
+	 * Token stylesheet relative path.
 	 */
-	const STYLESHEET_RELATIVE_PATH = 'assets/css/integra-core.css';
+	const CONFIGS_STYLESHEET_RELATIVE_PATH = 'assets/css/integra-configs.css';
+
+	/**
+	 * Global stylesheet relative path.
+	 */
+	const GLOBAL_STYLESHEET_RELATIVE_PATH = 'assets/css/integra-core.css';
 
 	/**
 	 * @var bool
@@ -40,16 +45,20 @@ final class Integra_Core_Runtime_CSS {
 			return;
 		}
 
-		$path = self::file_path();
-		$url  = self::file_url();
+		$configs_path = self::file_path();
+		$configs_url  = self::file_url();
 
-		if ( ! file_exists( $path ) ) {
+		if ( ! file_exists( $configs_path ) ) {
 			self::write_values( Integra_Core_Token_Registry::defaults() );
 		}
 
-		$version = file_exists( $path ) ? (string) filemtime( $path ) : INTEGRA_CORE_VERSION;
+		$configs_version = file_exists( $configs_path ) ? (string) filemtime( $configs_path ) : INTEGRA_CORE_VERSION;
+		$core_path       = self::global_file_path();
+		$core_url        = self::global_file_url();
+		$core_version    = file_exists( $core_path ) ? (string) filemtime( $core_path ) : INTEGRA_CORE_VERSION;
 
-		wp_enqueue_style( 'integra-core', $url, array(), $version );
+		wp_enqueue_style( 'integra-configs', $configs_url, array(), $configs_version );
+		wp_enqueue_style( 'integra-core', $core_url, array( 'integra-configs' ), $core_version );
 
 		self::$enqueued = true;
 	}
@@ -60,7 +69,7 @@ final class Integra_Core_Runtime_CSS {
 	 * @return string
 	 */
 	public static function file_path() {
-		return INTEGRA_CORE_DIR_PATH . self::STYLESHEET_RELATIVE_PATH;
+		return INTEGRA_CORE_DIR_PATH . self::CONFIGS_STYLESHEET_RELATIVE_PATH;
 	}
 
 	/**
@@ -69,7 +78,25 @@ final class Integra_Core_Runtime_CSS {
 	 * @return string
 	 */
 	public static function file_url() {
-		return INTEGRA_CORE_DIR_URL . self::STYLESHEET_RELATIVE_PATH;
+		return INTEGRA_CORE_DIR_URL . self::CONFIGS_STYLESHEET_RELATIVE_PATH;
+	}
+
+	/**
+	 * Returns the absolute global stylesheet path.
+	 *
+	 * @return string
+	 */
+	public static function global_file_path() {
+		return INTEGRA_CORE_DIR_PATH . self::GLOBAL_STYLESHEET_RELATIVE_PATH;
+	}
+
+	/**
+	 * Returns the global stylesheet URL.
+	 *
+	 * @return string
+	 */
+	public static function global_file_url() {
+		return INTEGRA_CORE_DIR_URL . self::GLOBAL_STYLESHEET_RELATIVE_PATH;
 	}
 
 	/**
