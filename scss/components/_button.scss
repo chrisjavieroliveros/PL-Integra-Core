@@ -44,6 +44,7 @@
     transform: scale(var(--in-button-hover-scale));
   }
 
+  &:active,
   &:focus-visible {
     outline: var(--in-button-focus-ring-width) solid
       var(--in-button-focus-ring-color);
