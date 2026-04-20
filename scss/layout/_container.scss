@@ -4,4 +4,8 @@
   padding-left: var(--in-container-padding-mobile);
   padding-right: var(--in-container-padding-mobile);
   margin: 0 auto;
+
+  &--wide {
+    max-width: var(--in-container-max-width-wide);
+  }
 }

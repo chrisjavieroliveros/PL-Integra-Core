@@ -185,6 +185,7 @@ return array(
 		'comment' => 'Container tokens',
 		'tokens'  => array(
 			'--in-container-max-width'      => '75rem',
+			'--in-container-max-width-wide' => '90rem',
 			'--in-container-padding-mobile' => '1rem',
 			'--in-container-padding-tablet' => '1.5rem',
 			'--in-container-padding-desktop'=> '2rem',
@@ -321,13 +322,11 @@ return array(
 		'title'   => 'Cards',
 		'comment' => 'Cards component tokens',
 		'tokens'  => array(
-			'--in-shadow-box'           => 'var(--in-shadow-1)',
-			'--in-cards-columns-mobile' => 'repeat(1, minmax(0, 1fr))',
-			'--in-cards-columns-tablet' => 'var(--in-cards-columns-mobile)',
-			'--in-cards-columns-desktop'=> 'var(--in-cards-columns-tablet)',
-			'--in-cards-gap-mobile'     => 'var(--in-space-4)',
-			'--in-cards-gap-tablet'     => 'var(--in-space-5)',
-			'--in-cards-gap-desktop'    => 'var(--in-space-6)',
+			'--in-cards-padding-mobile'  => 'var(--in-space-4)',
+			'--in-cards-padding-tablet'  => 'var(--in-space-5)',
+			'--in-cards-padding-desktop' => 'var(--in-space-6)',
+			'--in-cards-border-radius'   => 'var(--in-radius-md)',
+			'--in-cards-border-color'    => 'var(--in-color-Light-300)',
 		),
 	),
 	'display'         => array(
