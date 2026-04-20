@@ -5,6 +5,7 @@
   --_btn-hover-bg: var(--in-button-primary-hover-bg);
   --_btn-hover-fg: var(--in-button-primary-hover-fg);
   --_btn-hover-border: var(--in-button-primary-hover-border);
+  text-decoration: none;
 
   display: inline-flex;
   align-items: center;
@@ -25,7 +26,7 @@
   font-weight: var(--in-button-font-weight);
   line-height: var(--in-button-line-height);
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
   vertical-align: middle;
   cursor: pointer;
   transition:
@@ -43,10 +44,6 @@
     // fill: currentColor;
     stroke: currentColor;
   }
-
-  // svg [fill]:not([fill="none"]) {
-  //   fill: currentColor;
-  // }
 
   svg [stroke]:not([stroke="none"]) {
     stroke: currentColor;
@@ -76,6 +73,19 @@
     transform: none;
     box-shadow: none;
   }
+}
+
+a.in-btn,
+a.in-btn:visited {
+  color: var(--_btn-fg);
+  text-decoration: none !important;
+}
+
+a.in-btn:hover,
+a.in-btn:focus-visible,
+a.in-btn:active {
+  color: var(--_btn-hover-fg);
+  text-decoration: none !important;
 }
 
 .in-btn--sm {
