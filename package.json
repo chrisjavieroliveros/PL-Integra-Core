@@ -1,0 +1,11 @@
+{
+  "name": "pl-integra-core",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-plugin.mjs"
+  },
+  "devDependencies": {
+    "sass": "^1.93.2"
+  }
+}

@@ -3,7 +3,7 @@
  * Plugin Name:       Integra Core
  * Plugin URI:        https://example.com/integra-core
  * Description:       Shared design token styles for the Integra ecosystem.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            Integra
  * Author URI:        https://example.com
  * License:           GPL-2.0+
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTEGRA_CORE_VERSION', '0.1.0' );
+define( 'INTEGRA_CORE_VERSION', '0.1.1' );
 define( 'INTEGRA_CORE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'INTEGRA_CORE_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTEGRA_CORE_BASENAME', plugin_basename( __FILE__ ) );
