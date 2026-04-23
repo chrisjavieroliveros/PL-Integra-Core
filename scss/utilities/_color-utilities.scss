@@ -90,7 +90,7 @@ $utility-colors: (
   "dark-700": var(--in-color-Dark-700),
   "dark-800": var(--in-color-Dark-800),
   "dark-900": var(--in-color-Dark-900),
-  "dark-950": var(--in-color-Dark-950)
+  "dark-950": var(--in-color-Dark-950),
 );
 
 @each $name, $value in $utility-colors {
