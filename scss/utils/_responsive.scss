@@ -184,29 +184,24 @@ $breakpoints: (
   }
 }
 
-// Container-based responsive mixins (matches your CSS custom properties)
+// Container-based responsive mixins (matches the current public token contract)
 @mixin container-padding {
-  padding-left: var(--container-x-padding-xs);
-  padding-right: var(--container-x-padding-xs);
+  padding-left: var(--in-container-padding-mobile);
+  padding-right: var(--in-container-padding-mobile);
 
   @include mobile-up {
-    padding-left: var(--container-x-padding-sm);
-    padding-right: var(--container-x-padding-sm);
+    padding-left: var(--in-container-padding-mobile);
+    padding-right: var(--in-container-padding-mobile);
   }
 
   @include tablet-up {
-    padding-left: var(--container-x-padding-md);
-    padding-right: var(--container-x-padding-md);
+    padding-left: var(--in-container-padding-tablet);
+    padding-right: var(--in-container-padding-tablet);
   }
 
   @include desktop-up {
-    padding-left: var(--container-x-padding-lg);
-    padding-right: var(--container-x-padding-lg);
-  }
-
-  @include large-desktop-up {
-    padding-left: var(--container-x-padding-xl);
-    padding-right: var(--container-x-padding-xl);
+    padding-left: var(--in-container-padding-desktop);
+    padding-right: var(--in-container-padding-desktop);
   }
 }
 

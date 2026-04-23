@@ -17,18 +17,18 @@
 
     <style>
       :root {
-        --library-page-bg: linear-gradient(180deg, #f8f5f0 0%, #efe8df 100%);
-        --library-panel-bg: rgba(255, 255, 255, 0.9);
-        --library-panel-border: rgba(27, 27, 27, 0.08);
-        --library-panel-shadow: 0 18px 40px rgba(27, 27, 27, 0.08);
-        --library-muted: rgba(27, 27, 27, 0.64);
-        --library-dark-surface: #20242c;
-        --library-grid-gap: clamp(1rem, 2vw, 1.5rem);
+        --in-library-page-bg: linear-gradient(180deg, #f8f5f0 0%, #efe8df 100%);
+        --in-library-panel-bg: rgba(255, 255, 255, 0.9);
+        --in-library-panel-border: rgba(27, 27, 27, 0.08);
+        --in-library-panel-shadow: 0 18px 40px rgba(27, 27, 27, 0.08);
+        --in-library-muted: rgba(27, 27, 27, 0.64);
+        --in-library-dark-surface: #20242c;
+        --in-library-grid-gap: clamp(1rem, 2vw, 1.5rem);
       }
 
       body {
         min-height: 100vh;
-        background: var(--library-page-bg);
+        background: var(--in-library-page-bg);
         color: var(--in-color-Dark, #1b1b1b);
       }
 
@@ -60,22 +60,22 @@
 
       .library-hero p {
         max-width: 72ch;
-        color: var(--library-muted);
+        color: var(--in-library-muted);
       }
 
       .library-grid {
         display: grid;
-        gap: var(--library-grid-gap);
+        gap: var(--in-library-grid-gap);
       }
 
       .library-section {
         display: grid;
         gap: 1rem;
         padding: clamp(1.25rem, 2vw, 1.75rem);
-        border: 1px solid var(--library-panel-border);
+        border: 1px solid var(--in-library-panel-border);
         border-radius: 1.5rem;
-        background: var(--library-panel-bg);
-        box-shadow: var(--library-panel-shadow);
+        background: var(--in-library-panel-bg);
+        box-shadow: var(--in-library-panel-shadow);
         backdrop-filter: blur(16px);
       }
 
@@ -88,13 +88,13 @@
       .library-card p,
       .library-meta,
       .library-code {
-        color: var(--library-muted);
+        color: var(--in-library-muted);
       }
 
       .library-card-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: var(--library-grid-gap);
+        gap: var(--in-library-grid-gap);
       }
 
       .library-card {
@@ -108,7 +108,7 @@
       }
 
       .library-card--dark {
-        background: var(--library-dark-surface);
+        background: var(--in-library-dark-surface);
         border-color: rgba(255, 255, 255, 0.08);
         color: var(--in-color-White, #fff);
       }
@@ -155,7 +155,7 @@
       .library-split {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--library-grid-gap);
+        gap: var(--in-library-grid-gap);
       }
       .library-note {
         padding: 1rem 1.125rem;
