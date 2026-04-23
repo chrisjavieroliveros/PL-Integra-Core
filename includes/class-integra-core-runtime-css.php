@@ -31,8 +31,8 @@ final class Integra_Core_Runtime_CSS {
 	 * @return void
 	 */
 	public static function boot() {
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
-		add_action( 'enqueue_block_assets', array( __CLASS__, 'enqueue' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ), 25 );
+		add_action( 'enqueue_block_assets', array( __CLASS__, 'enqueue' ), 25 );
 	}
 
 	/**

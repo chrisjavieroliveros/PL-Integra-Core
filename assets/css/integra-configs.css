@@ -273,7 +273,7 @@
   --in-button-light-hover-bg: var(--in-color-White);
   --in-button-light-hover-fg: var(--in-color-Black);
   --in-button-light-hover-border: var(--in-color-Light-100);
-  --in-button-light-outline-hover-border: var(--in-color-Light-100);
+  --in-button-light-outline-hover-border: var(--in-color-Light-200);
   --in-button-dark-bg: var(--in-color-Dark-500);
   --in-button-dark-fg: var(--in-color-White);
   --in-button-dark-border: var(--in-color-Dark-500);
