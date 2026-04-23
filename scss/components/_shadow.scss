@@ -1,0 +1,51 @@
+.in-shadow {
+  &--0 {
+    --in-shadow-box: none;
+    box-shadow: var(--in-shadow-box);
+
+    &:hover {
+      --in-shadow-box: var(--in-shadow-1);
+      box-shadow: var(--in-shadow-box);
+    }
+  }
+
+  &--1 {
+    --in-shadow-box: var(--in-shadow-1);
+    box-shadow: var(--in-shadow-box);
+
+    &:hover {
+      --in-shadow-box: var(--in-shadow-2);
+      box-shadow: var(--in-shadow-box);
+    }
+  }
+
+  &--2 {
+    --in-shadow-box: var(--in-shadow-2);
+    box-shadow: var(--in-shadow-box);
+
+    &:hover {
+      --in-shadow-box: var(--in-shadow-3);
+      box-shadow: var(--in-shadow-box);
+    }
+  }
+
+  &--3 {
+    --in-shadow-box: var(--in-shadow-3);
+    box-shadow: var(--in-shadow-box);
+
+    &:hover {
+      --in-shadow-box: var(--in-shadow-4);
+      box-shadow: var(--in-shadow-box);
+    }
+  }
+
+  &--4 {
+    --in-shadow-box: var(--in-shadow-4);
+    box-shadow: var(--in-shadow-box);
+
+    &:hover {
+      --in-shadow-box: var(--in-shadow-5);
+      box-shadow: var(--in-shadow-box);
+    }
+  }
+}
