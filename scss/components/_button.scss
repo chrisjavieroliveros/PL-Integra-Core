@@ -43,7 +43,6 @@
     height: 1.15em;
     flex: 0 0 auto;
     color: currentColor;
-    // fill: currentColor;
     stroke: currentColor;
   }
 
@@ -79,8 +78,8 @@
 
 a.in-btn,
 a.in-btn:visited {
-  color: var(--_btn-fg);
-  text-decoration: none !important;
+  // color: var(--_btn-fg);
+  // text-decoration: none !important;
 }
 
 a.in-btn:hover,
@@ -198,6 +197,7 @@ a.in-btn:active {
   --_btn-bg: var(--in-button-light-bg);
   --_btn-fg: var(--in-button-light-fg);
   --_btn-border: var(--in-button-light-border);
+  --_btn-outline-fg: var(--in-button-light-fg);
   --_btn-hover-bg: var(--in-button-light-hover-bg);
   --_btn-hover-fg: var(--in-button-light-hover-fg);
   --_btn-hover-border: var(--in-button-light-hover-border);

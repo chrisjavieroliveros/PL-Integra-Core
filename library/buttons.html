@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="../assets/css/integra-configs.css" />
   <link rel="stylesheet" href="../assets/css/integra-core.min.css" />
 
-  <!-- Font Imports -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -97,7 +96,8 @@
       gap: var(--in-library-grid-gap);
     }
 
-    .library-card {
+    .library-card,
+    .library-variant-card {
       display: grid;
       gap: 1rem;
       min-height: 100%;
@@ -107,7 +107,8 @@
       background: rgba(255, 255, 255, 0.72);
     }
 
-    .library-card--dark {
+    .library-card--dark,
+    .library-variant-card--dark {
       background: var(--in-library-dark-surface);
       border-color: rgba(255, 255, 255, 0.08);
       color: var(--in-color-White, #fff);
@@ -115,16 +116,19 @@
 
     .library-card--dark p,
     .library-card--dark .library-meta,
-    .library-card--dark .library-code {
+    .library-card--dark .library-code,
+    .library-variant-card--dark p,
+    .library-variant-card--dark .library-meta,
+    .library-variant-card--dark .library-code {
       color: rgba(255, 255, 255, 0.72);
     }
 
-    .library-stack,
-    .library-row {
+    .library-row,
+    .library-stack {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
       align-items: center;
+      gap: 0.75rem;
     }
 
     .library-stack {
@@ -144,7 +148,8 @@
       word-break: break-word;
     }
 
-    .library-card--dark .library-code {
+    .library-card--dark .library-code,
+    .library-variant-card--dark .library-code {
       background: rgba(255, 255, 255, 0.08);
     }
 
@@ -152,17 +157,43 @@
       font-size: var(--in-font-size-body-sm, 0.875rem);
     }
 
-    .library-split {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--in-library-grid-gap);
-    }
-
     .library-note {
       padding: 1rem 1.125rem;
       border-left: 4px solid var(--in-color-Primary-200, #d2b89a);
       background: rgba(255, 255, 255, 0.56);
       border-radius: 1rem;
+    }
+
+    .library-spec-list,
+    .library-rule-list {
+      display: grid;
+      gap: 0.75rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .library-spec-item {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .library-snippet-stack {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .library-variant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--in-library-grid-gap);
+    }
+
+    .library-rule-list li,
+    .library-spec-item,
+    .library-card p,
+    .library-variant-card p {
+      margin: 0;
     }
 
     @media (max-width: 720px) {
@@ -183,20 +214,101 @@
       <span class="library-kicker">Integra Core Reference</span>
       <h1>Button Library</h1>
       <p>
-        Reference page for the current `.in-btn` API. This uses the live token
-        files and compiled core stylesheet in this plugin so the examples
-        reflect the real browser-facing contract: default, `sm`, `lg`,
-        semantic variants, outline, block, and disabled states.
+        Authoritative reference for agents and templates that render button
+        blocks in WordPress. This page is bound to the live token file and the
+        compiled runtime stylesheet in this plugin, so every supported class
+        combination shown here maps to the real `.in-btn` API and anything not
+        listed here should be treated as unsupported.
       </p>
     </header>
 
     <div class="library-grid">
       <section class="library-section">
         <div class="library-section-header">
-          <h2>Base Sizes</h2>
+          <h2>Authoring Contract</h2>
           <p>
-            The default button is the unsuffixed size token. Small and large
-            are applied with modifiers.
+            Use this section as the source of truth when generating WordPress
+            button markup.
+          </p>
+        </div>
+
+        <div class="library-card-grid">
+          <article class="library-card">
+            <h3>Base Formula</h3>
+            <div class="library-snippet-stack">
+              <pre class="library-code">
+&lt;button class="in-btn [size] [variant] [structure]" type="button"&gt;
+  Label
+&lt;/button&gt;</pre>
+              <pre class="library-code">
+&lt;a class="in-btn [size] [variant] [structure]" href="/target"&gt;
+  Label
+&lt;/a&gt;</pre>
+            </div>
+            <p class="library-meta">
+              The reference order on this page is base class, size, semantic
+              variant, then structure.
+            </p>
+          </article>
+
+          <article class="library-card">
+            <h3>Supported Elements</h3>
+            <ul class="library-spec-list">
+              <li class="library-spec-item">
+                <strong>`&lt;button&gt;`</strong>
+                <span>Use for form submits and in-page actions.</span>
+              </li>
+              <li class="library-spec-item">
+                <strong>`&lt;a&gt;`</strong>
+                <span>Use for navigation and CTA links.</span>
+              </li>
+              <li class="library-spec-item">
+                <strong>Disabled handling</strong>
+                <span>`disabled` for buttons, `aria-disabled="true"` for links.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="library-card">
+            <h3>Supported Modifiers</h3>
+            <ul class="library-spec-list">
+              <li class="library-spec-item">
+                <strong>Sizes</strong>
+                <span>Default is unsuffixed. Optional modifiers: `.in-btn--sm`, `.in-btn--lg`.</span>
+              </li>
+              <li class="library-spec-item">
+                <strong>Variants</strong>
+                <span>Primary is the base default. Optional semantic modifiers are `.in-btn--primary`, `.in-btn--secondary`, `.in-btn--success`, `.in-btn--info`, `.in-btn--warning`, `.in-btn--danger`, `.in-btn--light`, `.in-btn--dark`, `.in-btn--white`, `.in-btn--black`.</span>
+              </li>
+              <li class="library-spec-item">
+                <strong>Structures</strong>
+                <span>`.in-btn--outline` and `.in-btn--block`.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="library-card">
+            <h3>Do Not Assume</h3>
+            <ul class="library-rule-list">
+              <li><strong>No size classes</strong> beyond default, `.in-btn--sm`, and `.in-btn--lg`.</li>
+              <li><strong>No visual modifiers</strong> for ghost, soft, text, subtle, or pill buttons.</li>
+              <li><strong>No state classes</strong> for loading, active, selected, or icon-only buttons.</li>
+              <li><strong>No width modifier</strong> besides `.in-btn--block`.</li>
+            </ul>
+            <p class="library-meta">
+              If a block needs any excluded pattern, add it to the component
+              contract first instead of inventing new classes in markup.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="library-section">
+        <div class="library-section-header">
+          <h2>Base Size And Structure Surface</h2>
+          <p>
+            The base `.in-btn` renders the default primary button. Size and
+            structure modifiers compose with any semantic variant.
           </p>
         </div>
 
@@ -209,8 +321,7 @@
               <button class="in-btn in-btn--lg">Large</button>
             </div>
             <p class="library-meta">
-              `sm` now maps from the former `xs` token set. The default button
-              uses the former `sm` values.
+              The unsuffixed button is the default size. There is no `.in-btn--md`.
             </p>
             <pre class="library-code">
 &lt;button class="in-btn in-btn--sm"&gt;Small&lt;/button&gt;
@@ -228,117 +339,194 @@
               </button>
             </div>
             <pre class="library-code">
-&lt;button class="in-btn in-btn--block"&gt;Block Button&lt;/button&gt;</pre>
-          </article>
-        </div>
-      </section>
-
-      <section class="library-section">
-        <div class="library-section-header">
-          <h2>Filled Variants</h2>
-          <p>Every semantic button token set rendered as a filled button.</p>
-        </div>
-
-        <div class="library-card-grid">
-          <article class="library-card">
-            <h3>Brand and Status</h3>
-            <div class="library-row">
-              <button class="in-btn in-btn--primary">Primary</button>
-              <button class="in-btn in-btn--secondary">Secondary</button>
-              <button class="in-btn in-btn--success">Success</button>
-              <button class="in-btn in-btn--info">Info</button>
-            </div>
+&lt;button class="in-btn in-btn--block"&gt;Block Button&lt;/button&gt;
+&lt;button class="in-btn in-btn--block in-btn--lg"&gt;Large Block Button&lt;/button&gt;</pre>
           </article>
 
           <article class="library-card">
-            <h3>Alert Tones</h3>
+            <h3>Primary Defaults</h3>
             <div class="library-row">
-              <button class="in-btn in-btn--warning">Warning</button>
-              <button class="in-btn in-btn--danger">Danger</button>
-              <button class="in-btn in-btn--light">Light</button>
-              <button class="in-btn in-btn--dark">Dark</button>
-            </div>
-          </article>
-
-          <article class="library-card library-card--dark">
-            <h3>Contrast Pair</h3>
-            <div class="library-row">
-              <button class="in-btn in-btn--white">White</button>
-              <button class="in-btn in-btn--black">Black</button>
+              <button class="in-btn">Primary Filled</button>
+              <button class="in-btn in-btn--outline">Primary Outline</button>
             </div>
             <p class="library-meta">
-              Placed on a dark surface so the white token set can be evaluated
-              properly.
+              `.in-btn` alone is already primary. Adding `.in-btn--primary` is
+              allowed but redundant.
             </p>
+            <pre class="library-code">
+&lt;button class="in-btn"&gt;Primary Filled&lt;/button&gt;
+&lt;button class="in-btn in-btn--outline"&gt;Primary Outline&lt;/button&gt;</pre>
+          </article>
+
+          <article class="library-card">
+            <h3>Composition Examples</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--sm in-btn--secondary">Small Secondary</button>
+              <button class="in-btn in-btn--lg in-btn--outline in-btn--dark">Large Outline Dark</button>
+              <button class="in-btn in-btn--block in-btn--warning">Block Warning</button>
+            </div>
+            <pre class="library-code">
+&lt;button class="in-btn in-btn--sm in-btn--secondary"&gt;Small Secondary&lt;/button&gt;
+&lt;button class="in-btn in-btn--lg in-btn--outline in-btn--dark"&gt;Large Outline Dark&lt;/button&gt;
+&lt;button class="in-btn in-btn--block in-btn--warning"&gt;Block Warning&lt;/button&gt;</pre>
           </article>
         </div>
       </section>
 
       <section class="library-section">
         <div class="library-section-header">
-          <h2>Outline Variants</h2>
+          <h2>Complete Variant Matrix</h2>
           <p>
-            Outline buttons reuse the variant token sets but render with a
-            transparent background.
+            Every supported semantic token family is shown here as both filled
+            and outline. This is the complete variant inventory exposed by the
+            current SCSS.
           </p>
         </div>
 
-        <div class="library-split">
-          <article class="library-card">
-            <h3>Standard Surface</h3>
+        <div class="library-variant-grid">
+          <article class="library-variant-card">
+            <h3>Primary</h3>
             <div class="library-row">
-              <button class="in-btn in-btn--outline in-btn--primary">
-                Primary
-              </button>
-              <button class="in-btn in-btn--outline in-btn--secondary">
-                Secondary
-              </button>
-              <button class="in-btn in-btn--outline in-btn--success">
-                Success
-              </button>
-              <button class="in-btn in-btn--outline in-btn--info">
-                Info
-              </button>
-              <button class="in-btn in-btn--outline in-btn--warning">
-                Warning
-              </button>
-              <button class="in-btn in-btn--outline in-btn--danger">
-                Danger
-              </button>
-              <button class="in-btn in-btn--outline in-btn--black">
-                Black
-              </button>
-              <button class="in-btn in-btn--outline in-btn--dark">
-                Dark
-              </button>
-            </div>
-          </article>
-
-          <article class="library-card library-card--dark">
-            <h3>High-Contrast Surface</h3>
-            <div class="library-row">
-              <button class="in-btn in-btn--outline in-btn--light">
-                Light
-              </button>
-              <button class="in-btn in-btn--outline in-btn--white">
-                White
-              </button>
+              <button class="in-btn">Filled</button>
+              <button class="in-btn in-btn--outline">Outline</button>
             </div>
             <pre class="library-code">
-&lt;button class="in-btn in-btn--outline in-btn--primary"&gt;Primary&lt;/button&gt;</pre>
+Filled: .in-btn
+Outline: .in-btn.in-btn--outline
+Optional explicit primary: .in-btn.in-btn--primary</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Secondary</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--secondary">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--secondary">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--secondary
+Outline: .in-btn.in-btn--outline.in-btn--secondary</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Success</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--success">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--success">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--success
+Outline: .in-btn.in-btn--outline.in-btn--success</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Info</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--info">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--info">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--info
+Outline: .in-btn.in-btn--outline.in-btn--info</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Warning</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--warning">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--warning">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--warning
+Outline: .in-btn.in-btn--outline.in-btn--warning</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Danger</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--danger">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--danger">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--danger
+Outline: .in-btn.in-btn--outline.in-btn--danger</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Light</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--light">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--light">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--light
+Outline: .in-btn.in-btn--outline.in-btn--light</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Dark</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--dark">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--dark">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--dark
+Outline: .in-btn.in-btn--outline.in-btn--dark</pre>
+          </article>
+
+          <article class="library-variant-card">
+            <h3>Black</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--black">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--black">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--black
+Outline: .in-btn.in-btn--outline.in-btn--black</pre>
+          </article>
+
+          <article class="library-variant-card library-variant-card--dark">
+            <h3>White</h3>
+            <div class="library-row">
+              <button class="in-btn in-btn--white">Filled</button>
+              <button class="in-btn in-btn--outline in-btn--white">Outline</button>
+            </div>
+            <pre class="library-code">
+Filled: .in-btn.in-btn--white
+Outline: .in-btn.in-btn--outline.in-btn--white</pre>
           </article>
         </div>
       </section>
 
       <section class="library-section">
         <div class="library-section-header">
-          <h2>Practical Compositions</h2>
-          <p>Reference combinations for common UI use cases.</p>
+          <h2>WordPress Block Recipes</h2>
+          <p>
+            Ready-to-render patterns for block output. Use these exact markup
+            shapes when a block needs a button.
+          </p>
         </div>
 
         <div class="library-card-grid">
           <article class="library-card">
-            <h3>With Icon</h3>
+            <h3>CTA Link</h3>
+            <a class="in-btn in-btn--sm in-btn--secondary" href="#0">Read More</a>
+            <pre class="library-code">
+&lt;a class="in-btn in-btn--sm in-btn--secondary" href="/target"&gt;
+  Read More
+&lt;/a&gt;</pre>
+          </article>
+
+          <article class="library-card">
+            <h3>Submit Button</h3>
+            <button class="in-btn in-btn--sm in-btn--dark" type="submit">Submit Form</button>
+            <pre class="library-code">
+&lt;button class="in-btn in-btn--sm in-btn--dark" type="submit"&gt;
+  Submit Form
+&lt;/button&gt;</pre>
+          </article>
+
+          <article class="library-card">
+            <h3>Leading Icon Button</h3>
             <div class="library-row">
               <button class="in-btn">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -347,61 +535,48 @@
                 </svg>
                 Create Item
               </button>
-              <button class="in-btn in-btn--secondary in-btn--sm">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    d="M12 3.75A8.25 8.25 0 1 0 20.25 12 8.26 8.26 0 0 0 12 3.75Zm0 1.5A6.75 6.75 0 1 1 5.25 12 6.76 6.76 0 0 1 12 5.25Zm-.75 3a.75.75 0 0 1 1.5 0v3h2.5a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75Z" />
-                </svg>
-                Schedule
-              </button>
-            </div>
-            <p class="library-meta">
-              Icons inherit `currentColor` and align cleanly because the base
-              button uses inline flexbox.
-            </p>
-          </article>
-
-          <article class="library-card">
-            <h3>Links and Buttons</h3>
-            <div class="library-row">
-              <a class="in-btn" href="#0">Anchor Button</a>
-              <a class="in-btn in-btn--outline in-btn--secondary" href="#0">Outline Link</a>
-              <button class="in-btn in-btn--dark">Submit Form</button>
             </div>
             <pre class="library-code">
-&lt;a class="in-btn in-btn--outline in-btn--secondary" href="#0"&gt;Outline Link&lt;/a&gt;</pre>
+&lt;button class="in-btn" type="button"&gt;
+  &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;...&lt;/svg&gt;
+  Create Item
+&lt;/button&gt;</pre>
           </article>
 
           <article class="library-card">
-            <h3>Disabled States</h3>
+            <h3>Disabled Patterns</h3>
             <div class="library-row">
-              <button class="in-btn" disabled>Disabled</button>
-              <button class="in-btn in-btn--outline in-btn--danger" disabled>
-                Disabled Outline
-              </button>
-              <a class="in-btn in-btn--secondary" aria-disabled="true">ARIA Disabled</a>
+              <button class="in-btn" disabled>Disabled Button</button>
+              <a class="in-btn in-btn--secondary" aria-disabled="true">Disabled Link</a>
             </div>
-            <p class="library-meta">
-              Both `disabled` and `aria-disabled="true"` are supported in the
-              current SCSS.
-            </p>
+            <pre class="library-code">
+&lt;button class="in-btn" type="button" disabled&gt;
+  Disabled Button
+&lt;/button&gt;
+
+&lt;a class="in-btn in-btn--secondary" aria-disabled="true"&gt;
+  Disabled Link
+&lt;/a&gt;</pre>
           </article>
         </div>
       </section>
 
       <section class="library-section">
         <div class="library-section-header">
-          <h2>Usage Notes</h2>
+          <h2>Rendering Rules</h2>
         </div>
 
         <div class="library-note">
-          <p>
-            Use `.in-btn` as the base class. Add one optional size modifier
-            (`.in-btn--sm` or `.in-btn--lg`), one optional semantic variant
-            (`.in-btn--primary`, `.in-btn--secondary`, and so on), and then
-            any structural modifier such as `.in-btn--outline` or
-            `.in-btn--block`.
-          </p>
+          <ul class="library-rule-list">
+            <li><strong>Always include `.in-btn`.</strong> Nothing renders as a button without the base class.</li>
+            <li><strong>Use at most one size modifier.</strong> The valid set is none, `.in-btn--sm`, or `.in-btn--lg`.</li>
+            <li><strong>Use at most one semantic variant.</strong> The base button is already primary.</li>
+            <li><strong>Use `.in-btn--primary` only when you need the class to be explicit.</strong> It is not required for the default primary render.</li>
+            <li><strong>Add `.in-btn--outline` only when the button should be transparent.</strong> Otherwise render the filled version.</li>
+            <li><strong>Add `.in-btn--block` only when the button should span the available width.</strong></li>
+            <li><strong>Inline SVG icons are supported.</strong> They inherit `currentColor` and align through the base inline-flex layout.</li>
+            <li><strong>Do not invent extra modifiers in block markup.</strong> If a requirement is missing here, it is missing from the component API.</li>
+          </ul>
         </div>
       </section>
     </div>
