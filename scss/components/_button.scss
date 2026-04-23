@@ -39,11 +39,11 @@
     transform var(--in-button-transition-duration) ease;
 
   svg {
-    width: 1.15em;
-    height: 1.15em;
-    flex: 0 0 auto;
-    color: currentColor;
-    stroke: currentColor;
+    // width: 1.15em;
+    // height: 1.15em;
+    // flex: 0 0 auto;
+    // color: currentColor;
+    // stroke: currentColor;
   }
 
   svg [stroke]:not([stroke="none"]) {
