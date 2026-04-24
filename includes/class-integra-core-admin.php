@@ -318,8 +318,30 @@ final class Integra_Core_Admin {
 	 * @return void
 	 */
 	private static function render_section_tokens( $section, $registry, $values ) {
+		if ( 'Colors' === $section['title'] ) {
+			self::render_color_section_tokens( $section, $registry, $values );
+			return;
+		}
+
 		if ( 'Button' === $section['title'] ) {
-			self::render_button_section_tokens( $section, $registry, $values );
+			self::render_appearance_section_tokens(
+				$section,
+				$registry,
+				$values,
+				'button',
+				__( 'Global Button Properties', 'integra-core' )
+			);
+			return;
+		}
+
+		if ( 'Pill' === $section['title'] ) {
+			self::render_appearance_section_tokens(
+				$section,
+				$registry,
+				$values,
+				'pill',
+				__( 'Global Pill Properties', 'integra-core' )
+			);
 			return;
 		}
 
@@ -327,18 +349,107 @@ final class Integra_Core_Admin {
 	}
 
 	/**
-	 * Renders button tokens with grouped appearance blocks.
+	 * Renders color tokens with family blocks.
 	 *
 	 * @param array $section  Section config.
 	 * @param array $registry Flat token registry.
 	 * @param array $values   Current token values.
 	 * @return void
 	 */
-	private static function render_button_section_tokens( $section, $registry, $values ) {
-		$grouped = self::split_button_token_groups( $section['tokens'] );
+	private static function render_color_section_tokens( $section, $registry, $values ) {
+		$grouped = self::split_color_token_groups( $section['tokens'] );
+
+		if ( ! empty( $grouped['base'] ) ) {
+			echo '<h3 class="integra-core-token-subheading">' . esc_html__( 'Base Colors', 'integra-core' ) . '</h3>';
+			self::render_token_table( $grouped['base'], $registry, $values );
+		}
+
+		if ( empty( $grouped['families'] ) ) {
+			return;
+		}
+
+		echo '<div class="integra-core-token-groups">';
+
+		foreach ( $grouped['families'] as $family => $tokens ) {
+			?>
+			<section class="integra-core-token-group">
+				<div class="integra-core-token-group__header">
+					<h3><?php echo esc_html( self::format_token_group_label( $family ) ); ?></h3>
+					<p><code><?php echo esc_html( '--in-color-' . $family . '-*' ); ?></code></p>
+				</div>
+				<?php self::render_token_table( $tokens, $registry, $values ); ?>
+			</section>
+			<?php
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * Splits color tokens into standalone base colors and per-family groups.
+	 *
+	 * @param array $tokens Color tokens in display order.
+	 * @return array<string, array>
+	 */
+	private static function split_color_token_groups( $tokens ) {
+		$families = array();
+		$grouped  = array(
+			'base'     => array(),
+			'families' => array(),
+		);
+
+		foreach ( $tokens as $key => $default ) {
+			if ( ! preg_match( '/^--in-color-([A-Za-z0-9]+)(?:-[A-Za-z0-9]+)?$/', $key, $matches ) ) {
+				$grouped['base'][ $key ] = $default;
+				continue;
+			}
+
+			$family = $matches[1];
+
+			if ( ! isset( $families[ $family ] ) ) {
+				$families[ $family ] = array();
+			}
+
+			$families[ $family ][ $key ] = $default;
+		}
+
+		foreach ( $families as $family => $family_tokens ) {
+			if ( 1 === count( $family_tokens ) ) {
+				$grouped['base'] += $family_tokens;
+				continue;
+			}
+
+			$grouped['families'][ $family ] = $family_tokens;
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Formats a token group slug for display.
+	 *
+	 * @param string $group Token group slug.
+	 * @return string
+	 */
+	private static function format_token_group_label( $group ) {
+		return ucwords( str_replace( '-', ' ', $group ) );
+	}
+
+	/**
+	 * Renders component tokens with grouped appearance blocks.
+	 *
+	 * @param array  $section        Section config.
+	 * @param array  $registry       Flat token registry.
+	 * @param array  $values         Current token values.
+	 * @param string $component_slug Component token slug.
+	 * @param string $globals_label  Global tokens heading.
+	 * @return void
+	 */
+	private static function render_appearance_section_tokens( $section, $registry, $values, $component_slug, $globals_label ) {
+		$grouped = self::split_appearance_token_groups( $section['tokens'], $component_slug );
 
 		if ( ! empty( $grouped['globals'] ) ) {
-			echo '<h3 class="integra-core-token-subheading">' . esc_html__( 'Global Button Properties', 'integra-core' ) . '</h3>';
+			echo '<h3 class="integra-core-token-subheading">' . esc_html( $globals_label ) . '</h3>';
 			self::render_token_table( $grouped['globals'], $registry, $values );
 		}
 
@@ -352,8 +463,8 @@ final class Integra_Core_Admin {
 			?>
 			<section class="integra-core-token-group">
 				<div class="integra-core-token-group__header">
-					<h3><?php echo esc_html( ucfirst( $variant ) ); ?></h3>
-					<p><code><?php echo esc_html( '--in-button-' . $variant . '-*' ); ?></code></p>
+					<h3><?php echo esc_html( self::format_token_group_label( $variant ) ); ?></h3>
+					<p><code><?php echo esc_html( '--in-' . $component_slug . '-' . $variant . '-*' ); ?></code></p>
 				</div>
 				<?php self::render_token_table( $tokens, $registry, $values ); ?>
 			</section>
@@ -364,19 +475,27 @@ final class Integra_Core_Admin {
 	}
 
 	/**
-	 * Splits button tokens into global and per-variant groups.
+	 * Splits component tokens into global and per-variant appearance groups.
 	 *
-	 * @param array $tokens Button tokens in display order.
+	 * @param array  $tokens         Component tokens in display order.
+	 * @param string $component_slug Component token slug.
 	 * @return array<string, array>
 	 */
-	private static function split_button_token_groups( $tokens ) {
+	private static function split_appearance_token_groups( $tokens, $component_slug ) {
 		$grouped = array(
 			'globals'  => array(),
 			'variants' => array(),
 		);
+		$component_slug = preg_quote( $component_slug, '/' );
 
 		foreach ( $tokens as $key => $default ) {
-			if ( preg_match( '/^--in-button-([a-z0-9]+)-(bg|fg|border|hover-bg|hover-fg|hover-border|outline-hover-border)$/', $key, $matches ) ) {
+			if (
+				preg_match(
+					'/^--in-' . $component_slug . '-([a-z0-9]+)-(bg|fg|border|hover-bg|hover-fg|hover-border|outline-hover-border)$/',
+					$key,
+					$matches
+				)
+			) {
 				$variant = $matches[1];
 
 				if ( ! isset( $grouped['variants'][ $variant ] ) ) {
